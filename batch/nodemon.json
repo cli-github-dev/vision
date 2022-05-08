@@ -1,0 +1,4 @@
+{
+  "ignore": ["package.json"],
+  "exec": "babel-node src/init.js"
+}
