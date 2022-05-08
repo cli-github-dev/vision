@@ -18,18 +18,11 @@ _목차:_
     - [USER](#user)
     - [COMMON(Not menu)](#common)
   - [Settings](#settings)
-- [Additional Information](#additional-information)
-  - [Menu](#menu)
-    - [QUERY](#query)
-    - [RESOURCE](#resource)
-    - [COMPLIANCE](#compliance)
-    - [USER](#user)
-    - [COMMON(Not menu)](#common)
-  - [Settings](#settings)
 - [FAQ](#faq)
   - GCP, Azure 등 다른 클라우드에서도 사용 가능한가요?
   - 우리 회사는 SSL 가시화 장비를 사용하고 있습니다. npm 패키지들 설치를 어떻게 해야할까요?
   - PostgreSQL 초보자입니다. 쿼리를 작성하기 위해 뭘 해야될까요? 🥲
+  - 쿼리 주기를 변경하고 싶습니다. 어떻게 해야합니까?
 - [Special Thanks](#special-thanks)
 
 ## Simple Architecture
@@ -310,6 +303,17 @@ docker rmi $(docker images -f "dangling=true" -q)
 - 어플리케이션을 어떻게 실행해야할지 모르겠어요. 😰
   - 만약 당신이 충분히 문제들에 대해 검색해봤다면, 이슈를 열어주세요.
     - 당신은 "무엇을 시도했습니까?", "언제 오류가 발생합니까?", "콘솔에 오류가 표시됩니까?", "스크린샷을 이용해 상태를 제출하세요." 와 같은 추가 정보들을 필수로 제출해야 합니다.
+- 쿼리 주기를 변경하고 싶습니다. 어떻게 해야합니까?
+  - 먼저 300초로 설정된 값은 두 곳에 존재합니다.
+  - steampipe cache time(ttl) : /steampipe/aws.spc
+    - 이곳에서 값을 변경하면 결과값을 캐싱하는 시간이 달라집니다.
+    - 영향받는 메뉴는 'Editor' 메뉴입니다.(직접 쿼리를 수행할 때)
+  - /.env SP_TTL
+    - 이곳에서 값을 변경하면 'batch' 서버에서 steampipe에 질의하는 주기가 달라집니다.
+    - 영향받는 메뉴는 거의 모든 메뉴입니다.
+  - 하나의 예시로, 'Editor' 쿼리는 실시간 / 다른 메뉴의 결과는 5분마다 갱신하고 싶다면 아래와 같이 설정합니다.
+    - /steampipe/aws.spc : cache = false / cache_ttl = 0
+    - /.env : SP_TTL=300
 
 ## Special Thanks
 

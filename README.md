@@ -18,18 +18,11 @@ _Table of contents:_
     - [USER](#user)
     - [COMMON(Not menu)](#common)
   - [Settings](#settings)
-- [Additional Information](#additional-information)
-  - [Menu](#menu)
-    - [QUERY](#query)
-    - [RESOURCE](#resource)
-    - [COMPLIANCE](#compliance)
-    - [USER](#user)
-    - [COMMON(Not menu)](#common)
-  - [Settings](#settings)
 - [FAQ](#faq)
   - Can I use this system for other cloud like GCP, Azure etc?
   - We have SSL Visualization system on our company. What can I do for install npm packages?
   - I'm a PostgreSQL beginner. What can I do for a writing query? 🥲
+  - I wanna change the query frequency. What can I do?
 - [Special Thanks](#special-thanks)
 
 ## Simple Architecture
@@ -310,6 +303,17 @@ docker rmi $(docker images -f "dangling=true" -q)
 - I don't know how to run this application 😰
   - If you search your problem ENOUGH, open the issue please.
     - You must submit additional information like "What have you tried?", "When does the error happen?", "Do you see any error in the console?", "Submit your states using screenshots."
+- I wanna change the query frequency. What can I do?
+  - First, there are two locations that setted 300 seconds
+  - steampipe cache time(ttl) : /steampipe/aws.spc
+    - If you change a value, It makes difference in caching time for results
+    - It affects to 'Editor' menu(When you query directly)
+  - /.env SP_TTL
+    - If you change a value, It makes difference in querying the 'batch' server to steampipe periodic
+    - It affects almost all menus
+  - For example, if you want to update the 'Editor' query real-time / other menus every 5 minutes, set the following:
+    - /steampipe/aws.spc : cache = false / cache_ttl = 0
+    - /.env : SP_TTL=300
 
 ## Special Thanks
 
