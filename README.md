@@ -193,7 +193,7 @@ FROM
   aws_ec2_instance
 ```
 
-- And click the 'submit' button. Next, You can set CATEGORY is 'CUSTOM' / TYPE is 'EC2' / NAME is 'EC2_INFO'
+- And click the 'submit' button. Next, You can set CATEGORY is 'CUSTOM' / TYPE is 'EC2' / NAME is 'EC2_INFO'. And click the 'Save Query' button.
   ![CUSTOM](./_images/CUSTOM.png)
 - Now you can see this result in 'Resource' Menu.
 
@@ -289,7 +289,7 @@ docker rmi $(docker images -f "dangling=true" -q)
 ```
 
 - Credentials
-  - You can reference [this link](https://hub.steampipe.io/plugins/turbot/aws)
+  - You can refer to [this link](https://hub.steampipe.io/plugins/turbot/aws)
   - If you wanna test your only one account? Then, You can edit this files(config, credentials, aws.spc in steampipe directory)
     - Delete data about 'aws_sub1'.
 
