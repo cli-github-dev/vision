@@ -70,12 +70,7 @@ export default function TableListToolbar({
 
   useEffect(() => {
     const url = new URL(document.location as any);
-    if (!title) return;
-    if (!hasTitle) {
-      url.searchParams.delete('type');
-      url.searchParams.delete('name');
-      url.searchParams.delete('q');
-    } else if (url.search !== '' && type && name && q) {
+    if (url.search !== '' && type && name && q) {
       if (
         typeof type !== 'string' ||
         typeof name !== 'string' ||
@@ -87,6 +82,16 @@ export default function TableListToolbar({
       url.searchParams.set('q', q);
       setTitle({ type, name });
       setFilterName(q);
+    }
+  }, []);
+
+  useEffect(() => {
+    const url = new URL(document.location as any);
+    if (!title) return;
+    if (!hasTitle) {
+      url.searchParams.delete('type');
+      url.searchParams.delete('name');
+      url.searchParams.delete('q');
     } else {
       url.searchParams.set('type', title.type);
       url.searchParams.set('name', title.name);
