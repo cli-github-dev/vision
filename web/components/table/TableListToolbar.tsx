@@ -14,8 +14,9 @@ import Iconify from '@components/Iconify';
 import GroupSelect from '@components/GroupSelect';
 
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { hasTitleState, queryFilter, queryTitle } from '@libs/atoms';
+import { useRouter } from 'next/router';
 
 // ----------------------------------------------------------------------
 
@@ -60,16 +61,24 @@ export default function TableListToolbar({
   setPage: Dispatch<SetStateAction<number>>;
 }) {
   const [filterName, setFilterName] = useRecoilState<string>(queryFilter);
-  const title = useRecoilValue(queryTitle);
+  const [title, setTitle] = useRecoilState(queryTitle);
   const hasTitle = useRecoilValue(hasTitleState);
 
+  const { query: { type, name, q } } = useRouter();
+
   useEffect(() => {
-    if (!title) return;
     const url = new URL(document.location as any);
+    if (!title) return;
     if (!hasTitle) {
       url.searchParams.delete('type');
       url.searchParams.delete('name');
       url.searchParams.delete('q');
+    } else if (url.search !== "" && type && name && q) {
+      url.searchParams.set('type', type);
+      url.searchParams.set('name', name);
+      url.searchParams.set('q', q);
+      setTitle({ type, name });
+      setFilterName(q);
     } else {
       url.searchParams.set('type', title.type);
       url.searchParams.set('name', title.name);
