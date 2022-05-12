@@ -9,6 +9,7 @@ import {
   QueryTitle,
   queryTitle,
   queryTitles,
+  queryFilter,
 } from '@libs/atoms';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -51,6 +52,7 @@ export default function useTable<T = any>({
   const setGetApiUrl = useSetRecoilState(getApiUrlState);
   const setPostApiUrl = useSetRecoilState(postApiUrlState);
   const setHasChip = useSetRecoilState(hasChipState);
+  const setFilterName = useSetRecoilState(queryFilter);
   const { data, error } = useSWR<UseSWRState<T>>(getUrl);
 
   let dataError = data?.error;
@@ -63,8 +65,9 @@ export default function useTable<T = any>({
       setPostApiUrl(undefined);
       setTitle(undefined);
       setHasChip(false);
+      setFilterName('');
     };
-  }, [setResults, setGetApiUrl, setPostApiUrl, setTitle, setHasChip]);
+  }, [setResults, setGetApiUrl, setPostApiUrl, setTitle, setHasChip, setFilterName]);
 
   useEffect(() => {
     setHasTitle(existsTitle);
