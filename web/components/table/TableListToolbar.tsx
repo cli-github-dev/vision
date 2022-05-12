@@ -64,7 +64,9 @@ export default function TableListToolbar({
   const [title, setTitle] = useRecoilState(queryTitle);
   const hasTitle = useRecoilValue(hasTitleState);
 
-  const { query: { type, name, q } } = useRouter();
+  const {
+    query: { type, name, q },
+  } = useRouter();
 
   useEffect(() => {
     const url = new URL(document.location as any);
@@ -73,7 +75,13 @@ export default function TableListToolbar({
       url.searchParams.delete('type');
       url.searchParams.delete('name');
       url.searchParams.delete('q');
-    } else if (url.search !== "" && type && name && q) {
+    } else if (url.search !== '' && type && name && q) {
+      if (
+        typeof type !== 'string' ||
+        typeof name !== 'string' ||
+        typeof q !== 'string'
+      )
+        return;
       url.searchParams.set('type', type);
       url.searchParams.set('name', name);
       url.searchParams.set('q', q);

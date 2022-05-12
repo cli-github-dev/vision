@@ -48,7 +48,7 @@ export const hasChipState = atom<boolean>({
 export interface QueryTitle {
   type: string;
   name: string;
-  count: number;
+  count?: number;
 }
 
 export const queryTitle = atom<QueryTitle | undefined>({
